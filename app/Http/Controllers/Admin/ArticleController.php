@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
-    /**
-     * Display a list of articles
-     */
+   //display a list of articles
     public function index()
     {
         return response()->json(
@@ -18,9 +16,7 @@ class ArticleController extends Controller
         );
     }
 
-    /**
-     * Store a new article
-     */
+    //store article
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -48,9 +44,7 @@ class ArticleController extends Controller
         ], 201);
     }
 
-    /**
-     * Show a single article
-     */
+   //shows article 
     public function show($id)
     {
         $article = Article::findOrFail($id);
@@ -58,9 +52,7 @@ class ArticleController extends Controller
         return response()->json($article);
     }
 
-    /**
-     * Update an article
-     */
+   //update an article
     public function update(Request $request, $id)
     {
         $article = Article::findOrFail($id);
@@ -94,9 +86,8 @@ class ArticleController extends Controller
         ]);
     }
 
-    /**
-     * Delete an article
-     */
+  
+     // Delete an article
     public function destroy($id)
     {
         $article = Article::findOrFail($id);
