@@ -14,8 +14,7 @@ return new class extends Migration
            Schema::create('subscription_plans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('duration_value');
-            $table->enum('duration_unit', ['day', 'month', 'year']);
+
             $table->decimal('price', 10, 2);
             $table->string('currency', 10)->default('NPR');
             $table->boolean('published')->default(true);

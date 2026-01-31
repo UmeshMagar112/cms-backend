@@ -1,41 +1,90 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Models\SubscriptionPlan;
 use Illuminate\Http\Request;
 
 class SubscriptionPlanController extends Controller
 {
+  
     // List all published subscription plans
-    public function index()
+   public function index()
     {
-        $plans = SubscriptionPlan::where('published', true)
-            ->orderBy('sort_order', 'asc')
-            ->get();
-
-        return response()->json($plans);
+        $subscriptions = SubscriptionPlan::latest()->get();
+        return response()->json($subscriptions);
     }
 
-    // Show a single subscription plan
+    // Show single plan
     public function show($id)
     {
         $plan = SubscriptionPlan::findOrFail($id);
         return response()->json($plan);
     }
 
-    // Show payment page info for a plan
+    // Create new subscription plan
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'duration' => 'required|integer|min:1',
+            'status' => 'required|boolean',
+        ]);
+
+        $subscription = SubscriptionPlan::create($validated);
+
+        return response()->json([
+            'message' => 'Subscription plan created successfully',
+            'data' => $subscription
+        ], 201);
+    }
+
+    // Update a subscription plan
+    public function update(Request $request, $id)
+    {
+        $subscription = SubscriptionPlan::findOrFail($id);
+        
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'duration' => 'required|integer|min:1',
+            'status' => 'required|boolean',
+        ]);
+
+        $subscription->update($validated);
+
+        return response()->json([
+            'message' => 'Subscription plan updated successfully',
+            'data' => $subscription
+        ]);
+    }
+
+    // Delete a plan
+     public function destroy($id)
+    {
+        $subscription = SubscriptionPlan::findOrFail($id);
+        $subscription->delete();
+
+        return response()->json([
+            'message' => 'Subscription plan deleted successfully'
+        ]);
+    }
+
+    // Show payment page info
     public function paymentPage($id)
     {
         $plan = SubscriptionPlan::findOrFail($id);
+
         return response()->json([
-            'plan'  => $plan,
+            'plan' => $plan,
             'title' => 'Complete Payment'
         ]);
     }
 
-    // Submit a payment for a subscription
+    // Submit payment for a subscription
     public function submitPayment(Request $request)
     {
         $request->validate([

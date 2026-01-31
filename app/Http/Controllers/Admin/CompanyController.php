@@ -9,10 +9,7 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth:sanctum', 'role:admin']);
-    }
+  
 
     // Get all companies
     public function index()
