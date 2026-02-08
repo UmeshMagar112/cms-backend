@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('address');
             $table->string('phone');
-            $table->boolean('is_verified')->default(true);
+            $table->boolean('is_verified')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

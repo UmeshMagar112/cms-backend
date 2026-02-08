@@ -17,9 +17,9 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|digits:10',
-            'address' =>'required|string|max:255',
+            'address' => 'required|string|max:255',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:admin,company,jobseeker',
+            'role' => 'required|in:company,jobseeker',
         ]);
 
         // Determine verification status
@@ -36,13 +36,11 @@ class AuthController extends Controller
         ]);
 
         // Assign role
-        $role = Role::where('name', $request->role)->first();
-        if ($role) {
-            $user->roles()->attach($role);
-        }
+        $role = Role::where('name', $request->role)->firstOrFail();
+        $user->roles()->attach($role);
 
-        $message = $isVerified 
-            ? 'User registered successfully' 
+        $message = $isVerified
+            ? 'User registered successfully'
             : 'Your company registration is pending admin approval';
 
         return response()->json([
@@ -96,13 +94,6 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Logged out successfully',
-        ]);
-    }
-
-    protected function sendFailedLoginResponse(Request $request)
-    {
-        throw ValidationException::withMessages([
-            'auth_failed' => ['Authentication failed'],
         ]);
     }
 }

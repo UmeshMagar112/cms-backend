@@ -21,7 +21,6 @@ class ArticleController extends Controller
     {
         $validated = $request->validate([
             'title'            => 'required|string|max:255',
-            'excerpt'          => 'nullable|string|max:500',
             'content'          => 'required|string',
             'featured_image'   => 'required|image|max:4096',
             'status'           => 'required|boolean',
@@ -59,7 +58,6 @@ class ArticleController extends Controller
 
         $validated = $request->validate([
             'title'            => 'required|string|max:255',
-            'excerpt'          => 'nullable|string|max:500',
             'content'          => 'required|string',
             'featured_image'   => 'nullable|image|max:4096',
             'status'           => 'required|boolean',

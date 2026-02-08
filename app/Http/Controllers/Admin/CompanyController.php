@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
-  
 
     // Get all companies
     public function index()

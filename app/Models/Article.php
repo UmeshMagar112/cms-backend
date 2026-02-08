@@ -12,7 +12,6 @@ class Article extends Model
     // Specify which fields are mass assignable
     protected $fillable = [
         'title',
-        'excerpt',
         'content',
         'featured_image',
         'status',
